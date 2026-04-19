@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MD PAY</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body { background:#020617; color:white; font-family:Inter;}
+.card { background:#0f172a; padding:15px; border-radius:12px;}
+.btn { background:linear-gradient(90deg,#3b82f6,#f97316); padding:10px; border-radius:8px;}
+.page { display:none; }
+.active { display:block; }
+</style>
+</head>
+
+<body>
+
+<!-- TOP -->
+<div class="flex justify-between p-4">
+<h1 class="text-xl font-bold">MD PAY</h1>
+<div>₹ <span id="balance">5000</span></div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="page active p-4">
+
+<div class="grid grid-cols-2 gap-3">
+<div class="card">Balance ₹5000</div>
+<div class="card">Today ₹50</div>
+<div class="card">Total ₹500</div>
+<div class="card">Team 10</div>
+</div>
+
+</div>
+
+<!-- WALLET -->
+<div id="wallet" class="page p-4">
+<h2>Wallet</h2>
+<div class="card mb-3">Balance ₹5000</div>
+<button class="btn w-full mb-2" onclick="openPage('deposit')">Deposit</button>
+<button class="btn w-full" onclick="openPage('withdraw')">Withdraw</button>
+</div>
+
+<!-- DEPOSIT -->
+<div id="deposit" class="page p-4">
+<h2>Deposit</h2>
+<div class="card mb-3">
+UPI: yourupi@okaxis <br>
+Bank: XYZ Bank
+</div>
+<input placeholder="Amount" class="w-full p-2 text-black mb-2">
+<input type="file" class="mb-2">
+<button class="btn w-full">Submit</button>
+</div>
+
+<!-- WITHDRAW -->
+<div id="withdraw" class="page p-4">
+<h2>Withdraw</h2>
+<input placeholder="Amount" class="w-full p-2 text-black mb-2">
+<button class="btn w-full">Request Withdraw</button>
+</div>
+
+<!-- MARKET -->
+<div id="market" class="page p-4">
+<h2>Plans</h2>
+
+<div class="card flex justify-between mb-2">
+<div>₹1000<br><span class="text-green-400">+40</span></div>
+<button class="btn" onclick="buy(1000)">Buy</button>
+</div>
+
+<div class="card flex justify-between mb-2">
+<div>₹5000<br><span class="text-green-400">+200</span></div>
+<button class="btn" onclick="buy(5000)">Buy</button>
+</div>
+
+</div>
+
+<!-- EARNINGS -->
+<div id="earnings" class="page p-4">
+<h2>Earnings</h2>
+<div class="card">Today ₹50</div>
+<div class="card mt-2">Total ₹500</div>
+</div>
+
+<!-- TEAM -->
+<div id="team" class="page p-4">
+<h2>Team</h2>
+<div class="card">Total Members: 10</div>
+</div>
+
+<!-- PROFILE -->
+<div id="profile" class="page p-4">
+<h2>Profile</h2>
+<div class="card">Name: User</div>
+<div class="card mt-2">UPI: yourupi@okaxis</div>
+</div>
+
+<!-- NAVBAR -->
+<div class="fixed bottom-0 w-full flex justify-around bg-[#0f172a] p-3">
+<div onclick="openPage('dashboard')">Home</div>
+<div onclick="openPage('wallet')">Wallet</div>
+<div onclick="openPage('market')">Market</div>
+<div onclick="openPage('earnings')">Earn</div>
+<div onclick="openPage('profile')">Profile</div>
+</div>
+
+<script>
+function openPage(id){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
+
+function buy(amount){
+let bal = parseInt(document.getElementById("balance").innerText);
+if(bal >= amount){
+bal -= amount;
+document.getElementById("balance").innerText = bal;
+alert("Plan Activated!");
+}else{
+alert("Low Balance");
+}
+}
+</script>
+
+</body>
+  </html>
