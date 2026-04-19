@@ -3,117 +3,194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MD PAY</title>
+<title>MD PAY - Dashboard</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-body { background:#020617; color:white; font-family:Inter;}
-.card { background:#0f172a; padding:15px; border-radius:12px;}
-.btn { background:linear-gradient(90deg,#3b82f6,#f97316); padding:10px; border-radius:8px;}
+body { background:#0B1120; color:white; font-family:Inter;}
+.sidebar { width:240px; height:100vh; position:fixed; background:#020617;}
+.menu div { padding:14px; cursor:pointer; border-radius:8px;}
+.menu div:hover { background:#1e293b;}
+.active { background:#1e293b;}
 .page { display:none; }
-.active { display:block; }
+.show { display:block; }
+.card { background:#0f172a; border-radius:12px; padding:16px;}
+.btn { background:linear-gradient(90deg,#3b82f6,#f97316); padding:8px 14px; border-radius:8px;}
 </style>
 </head>
 
 <body>
 
-<!-- TOP -->
-<div class="flex justify-between p-4">
-<h1 class="text-xl font-bold">MD PAY</h1>
-<div>₹ <span id="balance">5000</span></div>
+<!-- SIDEBAR -->
+<div class="sidebar p-5">
+<h1 class="text-2xl font-bold mb-6">MD PAY</h1>
+
+<div class="menu space-y-2">
+<div onclick="openPage('dashboard')" class="active">Dashboard</div>
+<div onclick="openPage('wallet')">Wallet</div>
+<div onclick="openPage('market')">Market</div>
+<div onclick="openPage('earnings')">Earnings</div>
+<div onclick="openPage('profile')">Profile</div>
+</div>
+</div>
+
+<!-- MAIN -->
+<div style="margin-left:250px;" class="p-6">
+
+<!-- TOPBAR -->
+<div class="flex justify-between items-center mb-6">
+<h2 id="title">Dashboard</h2>
+<div class="bg-[#1e293b] px-4 py-2 rounded-lg">Balance: ₹ <span id="balance">5000</span></div>
 </div>
 
 <!-- DASHBOARD -->
-<div id="dashboard" class="page active p-4">
+<div id="dashboard" class="page show">
 
-<div class="grid grid-cols-2 gap-3">
-<div class="card">Balance ₹5000</div>
-<div class="card">Today ₹50</div>
-<div class="card">Total ₹500</div>
-<div class="card">Team 10</div>
+<div class="grid grid-cols-4 gap-4 mb-6">
+
+<div class="card">
+<p class="text-gray-400">Total Balance</p>
+<h2 class="text-xl">₹5000</h2>
+</div>
+
+<div class="card">
+<p class="text-gray-400">Today Income</p>
+<h2 class="text-green-400 text-xl">₹50</h2>
+</div>
+
+<div class="card">
+<p class="text-gray-400">Total Income</p>
+<h2 class="text-xl">₹500</h2>
+</div>
+
+<div class="card">
+<p class="text-gray-400">Team</p>
+<h2 class="text-xl">15</h2>
+</div>
+
+</div>
+
+<div class="card mb-6">
+<canvas id="chart"></canvas>
+</div>
+
+<div class="card">
+<h3 class="mb-3">Recent Transactions</h3>
+<table class="w-full text-sm">
+<tr class="text-gray-400"><td>Type</td><td>Amount</td><td>Status</td></tr>
+<tr><td>Deposit</td><td>₹1000</td><td class="text-green-400">Success</td></tr>
+<tr><td>Income</td><td>₹10</td><td class="text-green-400">Credited</td></tr>
+<tr><td>Withdraw</td><td>₹200</td><td class="text-yellow-400">Pending</td></tr>
+</table>
 </div>
 
 </div>
 
 <!-- WALLET -->
-<div id="wallet" class="page p-4">
-<h2>Wallet</h2>
-<div class="card mb-3">Balance ₹5000</div>
-<button class="btn w-full mb-2" onclick="openPage('deposit')">Deposit</button>
-<button class="btn w-full" onclick="openPage('withdraw')">Withdraw</button>
+<div id="wallet" class="page">
+<h2 class="mb-4">Wallet</h2>
+
+<div class="card mb-4">
+Available Balance: ₹5000
 </div>
 
-<!-- DEPOSIT -->
-<div id="deposit" class="page p-4">
-<h2>Deposit</h2>
-<div class="card mb-3">
-UPI: yourupi@okaxis <br>
-Bank: XYZ Bank
-</div>
-<input placeholder="Amount" class="w-full p-2 text-black mb-2">
-<input type="file" class="mb-2">
-<button class="btn w-full">Submit</button>
-</div>
+<button class="btn mb-2" onclick="alert('Deposit')">Deposit</button>
+<button class="btn" onclick="alert('Withdraw')">Withdraw</button>
 
-<!-- WITHDRAW -->
-<div id="withdraw" class="page p-4">
-<h2>Withdraw</h2>
-<input placeholder="Amount" class="w-full p-2 text-black mb-2">
-<button class="btn w-full">Request Withdraw</button>
 </div>
 
 <!-- MARKET -->
-<div id="market" class="page p-4">
-<h2>Plans</h2>
+<div id="market" class="page">
+<h2 class="mb-4">Market Plans</h2>
 
-<div class="card flex justify-between mb-2">
-<div>₹1000<br><span class="text-green-400">+40</span></div>
+<div class="card flex justify-between mb-3">
+<div>
+₹1000 Plan <br>
+<span class="text-green-400">+₹40</span>
+</div>
 <button class="btn" onclick="buy(1000)">Buy</button>
 </div>
 
-<div class="card flex justify-between mb-2">
-<div>₹5000<br><span class="text-green-400">+200</span></div>
+<div class="card flex justify-between">
+<div>
+₹5000 Plan <br>
+<span class="text-green-400">+₹200</span>
+</div>
 <button class="btn" onclick="buy(5000)">Buy</button>
 </div>
 
 </div>
 
 <!-- EARNINGS -->
-<div id="earnings" class="page p-4">
-<h2>Earnings</h2>
-<div class="card">Today ₹50</div>
-<div class="card mt-2">Total ₹500</div>
-</div>
+<div id="earnings" class="page">
+<h2 class="mb-4">Earnings</h2>
 
-<!-- TEAM -->
-<div id="team" class="page p-4">
-<h2>Team</h2>
-<div class="card">Total Members: 10</div>
+<div class="card mb-2">Today Income: ₹50</div>
+<div class="card">Total Income: ₹500</div>
+
 </div>
 
 <!-- PROFILE -->
-<div id="profile" class="page p-4">
-<h2>Profile</h2>
-<div class="card">Name: User</div>
-<div class="card mt-2">UPI: yourupi@okaxis</div>
+<div id="profile" class="page">
+<h2 class="mb-4">Profile</h2>
+
+<div class="card mb-2">Name: User</div>
+<div class="card">UPI: yourupi@okaxis</div>
+
 </div>
 
-<!-- NAVBAR -->
-<div class="fixed bottom-0 w-full flex justify-around bg-[#0f172a] p-3">
-<div onclick="openPage('dashboard')">Home</div>
-<div onclick="openPage('wallet')">Wallet</div>
-<div onclick="openPage('market')">Market</div>
-<div onclick="openPage('earnings')">Earn</div>
-<div onclick="openPage('profile')">Profile</div>
+<!-- FOOTER -->
+<footer class="mt-10 border-t border-gray-700 pt-6">
+
+<div class="grid md:grid-cols-3 gap-6">
+
+<div>
+<h3 class="font-bold mb-2">MD PAY</h3>
+<p class="text-gray-400 text-sm">
+MD PAY is a premium digital wallet and earning platform designed for seamless transactions and smart financial growth.
+</p>
+</div>
+
+<div>
+<h3 class="font-bold mb-2">Quick Links</h3>
+<ul class="text-gray-400 text-sm space-y-1">
+<li>About Us</li>
+<li>Privacy Policy</li>
+<li>Terms & Conditions</li>
+<li>Support</li>
+</ul>
+</div>
+
+<div>
+<h3 class="font-bold mb-2">Contact</h3>
+<p class="text-gray-400 text-sm">
+support@mdpay.com <br>
++91 9999999999
+</p>
+</div>
+
+</div>
+
+<p class="text-center text-gray-500 mt-6 text-sm">
+© 2026 MD PAY. All rights reserved.
+</p>
+
+</footer>
+
 </div>
 
 <script>
+
+// NAVIGATION
 function openPage(id){
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-document.getElementById(id).classList.add('active');
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
+document.getElementById(id).classList.add('show');
+document.getElementById("title").innerText = id.toUpperCase();
 }
 
+// BUY LOGIC (DEMO)
 function buy(amount){
 let bal = parseInt(document.getElementById("balance").innerText);
 if(bal >= amount){
@@ -121,10 +198,31 @@ bal -= amount;
 document.getElementById("balance").innerText = bal;
 alert("Plan Activated!");
 }else{
-alert("Low Balance");
+alert("Insufficient Balance");
 }
 }
+
+// CHART
+new Chart(document.getElementById("chart"), {
+type: "line",
+data: {
+labels: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+datasets: [{
+data: [10,20,15,30,25,40,35],
+borderColor: "#3b82f6",
+tension: 0.4
+}]
+},
+options: {
+plugins:{legend:{display:false}},
+scales:{
+x:{ticks:{color:"#aaa"}},
+y:{ticks:{color:"#aaa"}}
+}
+}
+});
+
 </script>
 
 </body>
-  </html>
+</html>
